@@ -6,12 +6,31 @@ import java.util.List;
 @Entity
 public class Book {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String title;
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL) //, mappedBy = "book")
+
+    @OneToMany(cascade = CascadeType.ALL) //, mappedBy = "book")
+    @JoinColumn(name="book_id")
     private List<Writer> writer;
-    @ManyToMany(fetch= FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "borrowedBooks")
+
+    @ManyToMany(fetch=FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "book_student",
+            joinColumns = @JoinColumn(name = "student_id"),
+            inverseJoinColumns = @JoinColumn(name = "book_id"))
     private List<Student> borrowingHistory;
+    private boolean taken = false;
+
+    public Book() { super(); }
+
+    public Book(String title, List<Writer> writer, List<Student> borrowingHistory, boolean taken) {
+        super();
+        this.title = title;
+        this.writer = writer;
+        this.borrowingHistory = borrowingHistory;
+        this.taken = taken;
+    }
 
     public long getId() {
         return id;
@@ -44,4 +63,13 @@ public class Book {
     public void setBorrowingHistory(List<Student> borrowingHistory) {
         this.borrowingHistory = borrowingHistory;
     }
+
+    public boolean isTaken() {
+        return taken;
+    }
+
+    public void setTaken(boolean taken) {
+        this.taken = taken;
+    }
+
 }

@@ -1,49 +1,46 @@
 package com.example.lib.controller;
 
-import com.example.lib.exception.ResourceNotFoundException;
 import com.example.lib.model.Student;
-import com.example.lib.repository.StudentRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import com.example.lib.service.StudentService;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @RestController
-@RequestMapping("/api/library/")
+@RequestMapping("/students")
 public class StudentController {
 
-    @Autowired
-    private StudentRepository studentRepository;
 
-    @GetMapping("students")
+    private StudentService _studentService;
+
+    public StudentController(StudentService _studentService) {
+        this._studentService = _studentService;
+    }
+
+    @GetMapping("/allstudents")
     public List<Student> getAllStudents() {
-        return this.studentRepository.findAll();
+        return _studentService.getAllStudents();
     }
 
     @GetMapping("student/{id}")
     @ResponseBody
-    public ResponseEntity<Student> getStudentById(@PathVariable long id)
-        throws ResourceNotFoundException {
-            Student student = studentRepository.findById(id)
-                    .orElseThrow(() -> new ResourceNotFoundException("No student with id ::" + id));
-
-            return ResponseEntity.ok().body(student);
+    public Student getStudentById(@PathVariable long id) {
+        return _studentService.getStudentById(id);
         }
 
-/*
-    @DeleteMapping("/deletebyid/{id}")
-    public Student deleteStudentById(@PathVariable long id) {
-        Student student = studentRepository.findById(id);
-
-        this.studentRepository.delete(student);
-        return student;
+    @GetMapping("")
+    @ResponseBody
+    public List<Student> getStudentsByName(@RequestParam(required=true) String name) {
+        return _studentService.getStudentsByName(name);
     }
-*/
-    @PostMapping("")
+
+
+    @DeleteMapping("/deleteStudent/{id}")
+    public Student deleteStudentById(@PathVariable long id) {
+        return _studentService.deleteStudentById(id);
+    }
+
+    @PostMapping("/addStudent")
     public Student createStudent(@RequestBody Student student) {
-        return this.studentRepository.save(student);
+        return _studentService.createStudent(student);
     }
 }

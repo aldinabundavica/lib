@@ -1,13 +1,12 @@
 package com.example.lib.model;
 
-import javax.persistence.Basic;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Date;
 
 @Entity
 public class Writer {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String name;
     private String lastname;
