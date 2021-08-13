@@ -1,11 +1,9 @@
 package com.example.lib.service;
 
+import com.example.lib.libMapper.dtos.StudentSlimDto;
+import com.example.lib.libMapper.mappers.LibMapper;
 import com.example.lib.model.Book;
-import com.example.lib.model.Student;
-import com.example.lib.model.Writer;
 import com.example.lib.repository.BookRepository;
-import com.example.lib.repository.StudentRepository;
-import com.example.lib.repository.WriterRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,15 +11,14 @@ import java.util.List;
 
 @Service
 public class BookService implements IBookService {
-    private BookRepository _bookRepository;
-    private StudentRepository _studentRepository;
-    private WriterRepository _writerRepository;
-
     @Autowired
-    public BookService(BookRepository _bookRepository, StudentRepository _studentRepository, WriterRepository _writerRepository) {
+    private BookRepository _bookRepository;
+    @Autowired
+    private LibMapper _libMapper;
+
+    public BookService(BookRepository _bookRepository, LibMapper _libMapper) {
         this._bookRepository = _bookRepository;
-        this._studentRepository = _studentRepository;
-        this._writerRepository = _writerRepository;
+        this._libMapper = _libMapper;
     }
 
     public Book createBook(Book book) {
@@ -39,17 +36,22 @@ public class BookService implements IBookService {
     public Book changeBookStatus(String title, boolean status) {
         Book book = _bookRepository.findByTitle(title);
         book.setTaken(status);
+        _bookRepository.save(book);
         return book;
     }
 
-    public Book borrowBook(String title, String studentName, String studentLastname) {
+    public Book borrowBook(String title, StudentSlimDto studentSlimDto) {
         Book book = _bookRepository.findByTitle(title);
         if(book != null) {
-            Student student = _studentRepository.findByNameAndLastname(studentName, studentLastname);
-            List<Student> borrowingHistory = book.getBorrowingHistory();
-            borrowingHistory.add(student);
-            book.setBorrowingHistory(borrowingHistory);
+            List<StudentSlimDto> borrowingHistory = _libMapper.studentToStudentSlimDto(
+                    book.getBorrowingHistory()
+            );
+            borrowingHistory.add(studentSlimDto);
+            book.setBorrowingHistory(_libMapper.studentSlimDtoToStudent(
+                    borrowingHistory
+            ));
         }
+        _bookRepository.save(book);
         return book;
     }
 

@@ -1,9 +1,11 @@
 package com.example.lib.controller;
 
+import com.example.lib.libMapper.dtos.StudentSlimDto;
 import com.example.lib.model.Book;
-import com.example.lib.model.Student;
 import com.example.lib.service.BookService;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 import static com.example.lib.helper.Constants.httpBlankSpace;
@@ -12,7 +14,6 @@ import static com.example.lib.helper.Constants.httpBlankSpace;
 @RequestMapping("/books")
 public class BookController {
     private BookService _bookService;
-
     public BookController(BookService _bookService) {
         this._bookService = _bookService;
     }
@@ -29,8 +30,10 @@ public class BookController {
     }
 
     @GetMapping("/allBooks")
-    public List<Book> getAllBooks() {
-        return _bookService.getAllBooks();
+    public String getAllBooks(Model model) {
+        List<Book> books = _bookService.getAllBooks();
+        model.addAttribute("listBooks", books);
+        return "book_page";
     }
 
     @PutMapping("/changebookstatus/{title}/{status}")
@@ -39,14 +42,10 @@ public class BookController {
         return _bookService.changeBookStatus(title, (boolean) status);
     }
 
-    @PutMapping("/borrowBook/{title}/{studentname}/{studentlastname}")
-    public Book borrowBook(@PathVariable String title, @PathVariable String studentname, @PathVariable String studentlastname) {
-
-        title.replace(httpBlankSpace, " ");
-        studentname.replace(httpBlankSpace, " ");
-        studentlastname.replace(httpBlankSpace, " ");
-
-        return _bookService.borrowBook(title, studentname, studentlastname);
+    @PutMapping("/borrowBook/{title}")
+    @ResponseBody
+    public Book borrowBook(@PathVariable String title, @RequestBody StudentSlimDto studentSlimDto) {
+        return _bookService.borrowBook(title, studentSlimDto);
     }
 
 }

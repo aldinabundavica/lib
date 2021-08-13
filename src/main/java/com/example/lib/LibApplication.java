@@ -18,9 +18,10 @@ import java.util.UUID;
 @SpringBootApplication
 @EnableSwagger2
 @EntityScan("com.example.lib.model")
-@ComponentScan("com.example.lib")
+@ComponentScan({"com.example.lib"})
 @EnableJpaRepositories("com.example.lib.repository")
 @EnableAutoConfiguration
+//@MapperScan("com.example.lib.mapstruct")
 public class LibApplication {
 
 	public static void main(String[] args) {
