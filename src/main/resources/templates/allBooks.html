@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8"/>
+  <title>Product Manager</title>
+  <link rel="stylesheet" href="https://use.fontawesome.com/release/v5.4.1/css/all.css">
+</head>
+<body>
+<div align="center">
+  <h1>Book List</h1>
+      <a href="/books/addBook">Add New Book</a>
+  <br/><br/>
+  <table border="1" cellpadding="10">
+    <thead>
+    <tr>
+      <th>Book ID</th>
+      <th>Title</th>
+      <th>Status</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="book : ${listBooks}">
+      <td th:text="${book.id}">Book ID</td>
+      <td th:text="${book.title}">Title</td>
+      <td th:text="${book.taken}">Title</td>
+      <td>
+        <a th:ref="@{/changebookstatus/{title}/{status}(title=${book.title}, status=${book.taken})}"
+           class="btn btn-primary">
+          <i class="fas fa-user-edit ml-2"></i>
+        </a>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+</body>
+</html>

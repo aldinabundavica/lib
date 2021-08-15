@@ -3,6 +3,7 @@ package com.example.lib.controller;
 import com.example.lib.libMapper.dtos.StudentSlimDto;
 import com.example.lib.model.Book;
 import com.example.lib.service.BookService;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,7 +11,7 @@ import java.util.List;
 
 import static com.example.lib.helper.Constants.httpBlankSpace;
 
-@RestController
+@Controller
 @RequestMapping("/books")
 public class BookController {
     private BookService _bookService;
@@ -33,7 +34,7 @@ public class BookController {
     public String getAllBooks(Model model) {
         List<Book> books = _bookService.getAllBooks();
         model.addAttribute("listBooks", books);
-        return "book_page";
+        return "allBooks";
     }
 
     @PutMapping("/changebookstatus/{title}/{status}")

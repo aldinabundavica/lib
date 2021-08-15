@@ -11,6 +11,6 @@ public class HomeController {
     @GetMapping("/home")
     public String home(@RequestParam(required = false) String login, Model model) {
         model.addAttribute("login", login);
-        return "library";
+        return "index";
     }
 }
