@@ -11,4 +11,6 @@ public interface LibMapper {
     List<StudentSlimDto> studentToStudentSlimDto(List<Student> student);
 
     List<Student> studentSlimDtoToStudent(List<StudentSlimDto> student);
+
+    Student studentSlimDtoToStudent1(StudentSlimDto student);
 }

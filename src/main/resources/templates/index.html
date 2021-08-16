@@ -6,7 +6,16 @@
     <link href="css/style.css" rel="stylesheet">
 </head>
 <body>
-<h2>E-Biblioteka <span th:text="${login}"></span></h2>
+<div class="container text-center">
+    <div><h1>Welcome to e-Library.</h1></div>
+    <div><h2>Please choose your option below:</h2></div>
+    <div class="p-2">
+        <a class="h3" th:href="@{/books/allBooks}">Book overview</a>
+    </div>
+    <div class="p-2">
+        <a class="h3" th:href="@{/students}">Student overview</a>
+    </div>
+</div>
 <script src="js/script.js"></script>
 </body>
 </html>

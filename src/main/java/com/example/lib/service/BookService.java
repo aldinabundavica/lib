@@ -3,21 +3,29 @@ package com.example.lib.service;
 import com.example.lib.libMapper.dtos.StudentSlimDto;
 import com.example.lib.libMapper.mappers.LibMapper;
 import com.example.lib.model.Book;
+import com.example.lib.model.Writer;
 import com.example.lib.repository.BookRepository;
+import com.example.lib.repository.WriterRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 
 @Service
 public class BookService implements IBookService {
     @Autowired
     private BookRepository _bookRepository;
     @Autowired
+    private WriterRepository _writerRepository;
+    @Autowired
     private LibMapper _libMapper;
 
-    public BookService(BookRepository _bookRepository, LibMapper _libMapper) {
+    public BookService(BookRepository _bookRepository, WriterRepository _writerRepository, LibMapper _libMapper) {
         this._bookRepository = _bookRepository;
+        this._writerRepository = _writerRepository;
         this._libMapper = _libMapper;
     }
 
@@ -53,6 +61,11 @@ public class BookService implements IBookService {
         }
         _bookRepository.save(book);
         return book;
+    }
+    
+    public List<Writer> getAllWritersNames() {
+        List<Writer> writers =  _writerRepository.findAll();
+        return writers;
     }
 
 }

@@ -2,6 +2,7 @@ package com.example.lib.service;
 
 import com.example.lib.libMapper.dtos.StudentSlimDto;
 import com.example.lib.model.Book;
+import com.example.lib.model.Writer;
 
 import java.util.List;
 
@@ -14,4 +15,6 @@ public interface IBookService {
     Book changeBookStatus(String title, boolean status);
 
     Book borrowBook(String title, StudentSlimDto studentSlimDto);
+
+    List<Writer> getAllWritersNames();
 }

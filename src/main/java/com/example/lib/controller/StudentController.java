@@ -1,14 +1,15 @@
 package com.example.lib.controller;
 
+import com.example.lib.libMapper.dtos.StudentSlimDto;
 import com.example.lib.model.Student;
 import com.example.lib.service.StudentService;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
-@RestController
-@RequestMapping("/students")
+@Controller
 public class StudentController {
-
 
     private StudentService _studentService;
 
@@ -16,9 +17,11 @@ public class StudentController {
         this._studentService = _studentService;
     }
 
-    @GetMapping("/allstudents")
-    public List<Student> getAllStudents() {
-        return _studentService.getAllStudents();
+    @GetMapping("students")
+    public String getAllStudents(Model model) {
+        List<Student> students = _studentService.getAllStudents();
+        model.addAttribute("listStudents", students);
+        return "allStudents";
     }
 
     @GetMapping("student/{id}")
@@ -35,12 +38,22 @@ public class StudentController {
 
 
     @DeleteMapping("/deleteStudent/{id}")
-    public Student deleteStudentById(@PathVariable long id) {
+    public Student deleteStudentById(long id) {
         return _studentService.deleteStudentById(id);
     }
 
+    @GetMapping("/add")
+    public String showCreateStudentForm(Model model) {
+        model.addAttribute("student", new Student());
+        return "addStudent";
+    }
+
     @PostMapping("/addStudent")
-    public Student createStudent(@RequestBody Student student) {
-        return _studentService.createStudent(student);
+    public String createStudent(Student student) {
+        Student newStudent = _studentService.createStudent(student);
+        if(newStudent != null) {
+            return "redirect:/students";
+        }
+        return "";
     }
 }

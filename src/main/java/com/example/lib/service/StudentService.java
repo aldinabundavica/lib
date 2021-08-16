@@ -1,5 +1,7 @@
 package com.example.lib.service;
 
+import com.example.lib.libMapper.dtos.StudentSlimDto;
+import com.example.lib.libMapper.mappers.LibMapper;
 import com.example.lib.model.Student;
 import com.example.lib.repository.StudentRepository;
 
@@ -12,10 +14,12 @@ import java.util.List;
 public class StudentService implements IStudentService{
 
     private final StudentRepository _studentRepository;
+    private final LibMapper _libMapper;
 
     @Autowired
-    public StudentService(StudentRepository _studentRepository) {
+    public StudentService(StudentRepository _studentRepository, LibMapper _libMapper) {
         this._studentRepository = _studentRepository;
+        this._libMapper = _libMapper;
     }
 
     public List<Student> getAllStudents() {

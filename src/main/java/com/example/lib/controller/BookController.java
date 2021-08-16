@@ -2,6 +2,7 @@ package com.example.lib.controller;
 
 import com.example.lib.libMapper.dtos.StudentSlimDto;
 import com.example.lib.model.Book;
+import com.example.lib.model.Student;
 import com.example.lib.service.BookService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,15 +20,23 @@ public class BookController {
         this._bookService = _bookService;
     }
 
+    @GetMapping("/add")
+    public String showCreateBookForm(Model model) {
+        model.addAttribute("book", new Book());
+        model.addAttribute("writers", _bookService.getAllWritersNames());
+        return "addBook";
+    }
+
     @PostMapping("/addBook")
-    public Book createBook(@RequestBody Book book) {
+    public Book createBook(Book book) {
         return _bookService.createBook(book);
     }
 
     @GetMapping("book/{id}")
     @ResponseBody
     public Book getBookById(@PathVariable long id) {
-        return _bookService.getBookById(id);
+        Book book = _bookService.getBookById(id);
+        return book;
     }
 
     @GetMapping("/allBooks")
