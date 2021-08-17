@@ -40,11 +40,11 @@ public class BookController {
     }
 
     @GetMapping("/allBooks")
-    public String getAllBooks(Model model, String keyword) {
-        //List<Book> books = _bookService.getAllBooks();
-        //.addAttribute("listBooks", books);
-        List<Book> filteredBooks = _bookService.findBookByKeyword(keyword);
-        model.addAttribute("listBooks", filteredBooks);
+    public String getAllBooks(Model model) {
+        List<Book> books = _bookService.getAllBooks();
+        //model.addAttribute("listBooks", books);
+        //List<Book> filteredBooks = _bookService.findBookByKeyword(keyword);
+        model.addAttribute("listBooks", books);
         return "allBooks";
     }
 
