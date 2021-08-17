@@ -2,47 +2,78 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="utf-8"/>
-  <title>Book List</title>
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+    <title>Book List</title>
+    <div th:replace="fragments :: myheader"></div>
 </head>
+<header>
+    <div th:insert="fragments :: menu"></div>
+</header>
 <body>
-<div align="center">
-  <h1>Book List</h1>
-  <p class="my-5">
-    <a href="/books/add" class="btn btn-primary">
-      <i class="fas fa-books-medical">Add Book</i></a>
-  </p>
-  <br/><br/>
-  <div class="container text-center">
-  <table class="table table-bordered" border="1" cellpadding="10">
-    <thead class="thead-dark">
-    <tr>
-      <th>Book ID</th>
-      <th>Title</th>
-      <th>Status</th>
-      <th>Writer</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="book : ${listBooks}">
-      <td th:text="${book.id}">Book ID</td>
-      <td th:text="${book.title}">Title</td>
-      <td>
-        <input type="checkbox" name="mycheckbox" th:checked="${book.taken} ? 'checked'">
-      </td>
-      <td th:text="${book.getWriter()}">Writer</td>
-      <td>
-        <a th:ref="@{/changebookstatus/{title}/{status}(title=${book.title}, status=${book.taken})}"
-           class="btn btn-primary">
-          <i class="fas fa-user-edit ml-2"></i>
-        </a>
-      </td>
-    </tr>
-    </tbody>
-  </table>
-  </div>
+<div class="container my-5">
+    <h3>Book List</h3>
+    <div class="card">
+        <div class="card-body">
+            <p class="my-3">
+                <a href="/books/add" class="btn btn-primary">
+                    <i class="fas fa-book-medical"> Add Book</i></a>
+            </p>
+            <br/><br/>
+            <div class="container text-center">
+
+                <form th:action="@{/books/allBooks}" method="get">
+                    <input id="txtSearch" type="text" name="keyword">
+                    <button type="submit">GO</button>
+                </form>
+                <table class="table table-bordered" border="1" cellpadding="10">
+                    <thead class="thead-dark">
+                    <tr>
+                        <th>Book ID</th>
+                        <th>Title</th>
+                        <th>Status</th>
+                        <th>Writer</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="book : ${listBooks}">
+                        <td th:text="${book.id}">Book ID</td>
+                        <td th:text="${book.title}">Title</td>
+                        <td>
+                            <input type="checkbox" name="mycheckbox" th:checked="${book.taken} ? 'checked'">
+                        </td>
+                        <td th:text="${book.getWriter()}">Writer</td>
+                        <td>
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editModal" id="editButton">
+                                <i class="fas fa-user-edit ml-2"></i>
+                            </button>
+
+                            <!-- Modal -->
+                            <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            ...
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                            <button type="button" class="btn btn-primary">Save changes</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 </div>
+<div th:insert="fragments :: footer"></div>
 </body>
 </html>

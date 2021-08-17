@@ -37,9 +37,10 @@ public class StudentController {
     }
 
 
-    @DeleteMapping("/deleteStudent/{id}")
-    public Student deleteStudentById(long id) {
-        return _studentService.deleteStudentById(id);
+    @RequestMapping("/deleteStudent/{id}")
+    public String deleteStudentById(Model model, @PathVariable long id) {
+        _studentService.deleteStudentById(id);
+        return "redirect:/students";
     }
 
     @GetMapping("/add")

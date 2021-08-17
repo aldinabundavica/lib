@@ -17,4 +17,6 @@ public interface IBookService {
     Book borrowBook(String title, StudentSlimDto studentSlimDto);
 
     List<Writer> getAllWritersNames();
+
+    List<Book> findBookByKeyword(String keyword);
 }

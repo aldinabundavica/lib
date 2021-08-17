@@ -68,4 +68,8 @@ public class BookService implements IBookService {
         return writers;
     }
 
+    public List<Book> findBookByKeyword(String keyword) {
+        return _bookRepository.findByKeyword(keyword);
+    }
+
 }

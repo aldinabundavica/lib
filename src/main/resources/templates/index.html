@@ -1,4 +1,36 @@
-<!DOCTYPE html>
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>e-Library</title>
+    <div th:replace="fragments :: myheader"></div>
+</head>
+<header>
+    <div th:insert="fragments :: menu"></div>
+</header>
+<body>
+<div class="container my-5">
+    <h3>Student e-Library</h3>
+    <p>Please choose your option below:</p>
+</div>
+<footer>
+    <a href="/books/allBooks">Book overview</a> |
+    <a href="/students">Student overview</a>
+</footer>
+<div th:insert="fragments :: footer"></div>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+<!--<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
@@ -18,4 +50,4 @@
 </div>
 <script src="js/script.js"></script>
 </body>
-</html>
+</html> -->
