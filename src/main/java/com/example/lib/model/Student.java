@@ -10,7 +10,12 @@ public class Student {
     private long id;
     private String name;
     private String lastname;
-    @ManyToMany(fetch= FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "borrowingHistory")
+
+    @ManyToMany(fetch=FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "book_student",
+            joinColumns = @JoinColumn(name = "student_id"),
+            inverseJoinColumns = @JoinColumn(name = "book_id"))
     private List<Book> borrowedBooks;
 
     public Student() {

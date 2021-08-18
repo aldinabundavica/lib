@@ -10,21 +10,21 @@ public class Book {
     private long id;
     private String title;
 
-    @OneToMany(cascade = CascadeType.ALL) //, mappedBy = "book")
-    @JoinColumn(name="book_id")
-    private List<Writer> writer;
+    @ManyToOne(fetch=FetchType.LAZY)
+    private Writer writer;
 
-    @ManyToMany(fetch=FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinTable(
-            name = "book_student",
-            joinColumns = @JoinColumn(name = "student_id"),
-            inverseJoinColumns = @JoinColumn(name = "book_id"))
+//    @ManyToMany(fetch=FetchType.LAZY, cascade = CascadeType.ALL)
+//    @JoinTable(
+//            name = "book_student",
+//            joinColumns = @JoinColumn(name = "student_id"),
+//            inverseJoinColumns = @JoinColumn(name = "book_id"))
+    @Transient
     private List<Student> borrowingHistory;
     private boolean taken = false;
 
     public Book() { super(); }
 
-    public Book(String title, List<Writer> writer, List<Student> borrowingHistory, boolean taken) {
+    public Book(String title, Writer writer, List<Student> borrowingHistory, boolean taken) {
         super();
         this.title = title;
         this.writer = writer;
@@ -48,11 +48,11 @@ public class Book {
         this.title = title;
     }
 
-    public List<Writer> getWriter() {
+    public Writer getWriter() {
         return writer;
     }
 
-    public void setWriter(List<Writer> writer) {
+    public void setWriter(Writer writer) {
         this.writer = writer;
     }
 

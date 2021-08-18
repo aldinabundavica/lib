@@ -2,6 +2,7 @@ package com.example.lib.service;
 
 import com.example.lib.libMapper.dtos.StudentSlimDto;
 import com.example.lib.model.Book;
+import com.example.lib.model.Student;
 import com.example.lib.model.Writer;
 
 import java.util.List;

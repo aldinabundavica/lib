@@ -28,8 +28,11 @@ public class BookController {
     }
 
     @PostMapping("/addBook")
-    public Book createBook(Book book) {
-        return _bookService.createBook(book);
+    public String createBook(Book book) {
+        if(_bookService.createBook(book) != null) {
+            return "redirect:/books/allBooks";
+        }
+        return "";
     }
 
     @GetMapping("book/{id}")
@@ -40,11 +43,8 @@ public class BookController {
     }
 
     @GetMapping("/allBooks")
-    public String getAllBooks(Model model) {
-        List<Book> books = _bookService.getAllBooks();
-        //model.addAttribute("listBooks", books);
-        //List<Book> filteredBooks = _bookService.findBookByKeyword(keyword);
-        model.addAttribute("listBooks", books);
+    public String getAllBooks(Model model, String keyword) {
+        model.addAttribute("listBooks", keyword == null ? _bookService.getAllBooks() : _bookService.findBookByKeyword(keyword));
         return "allBooks";
     }
 

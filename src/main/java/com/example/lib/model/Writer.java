@@ -2,6 +2,7 @@ package com.example.lib.model;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 public class Writer {
@@ -12,6 +13,8 @@ public class Writer {
     private String lastname;
     @Basic
     private java.util.Date date;
+    @OneToMany(mappedBy="writer")
+    private List<Book> books;
 
     public Writer() {
         super();
@@ -54,4 +57,13 @@ public class Writer {
     public void setDate(Date date) {
         this.date = date;
     }
+
+    public List<Book> getBooks() {
+        return books;
+    }
+
+    public void setBooks(List<Book> books) {
+        this.books = books;
+    }
+
 }

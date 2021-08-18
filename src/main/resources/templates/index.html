@@ -9,45 +9,17 @@
     <div th:insert="fragments :: menu"></div>
 </header>
 <body>
-<div class="container my-5">
-    <h3>Student e-Library</h3>
-    <p>Please choose your option below:</p>
+<div class="jumbotron jumbotron-fluid">
+    <div class="container">
+        <h1 class="display-4">Student e-Library</h1>
+        <p class="lead">The aim of the e-library is to serve as
+            digital collection of the scholarly literature for
+            students of undergraduate study programmes.</p>
+        <h4>Please choose your option below:</h4>
+        <a href="/books/allBooks">Book overview</a> |
+        <a href="/students">Student overview</a>
+    </div>
 </div>
-<footer>
-    <a href="/books/allBooks">Book overview</a> |
-    <a href="/students">Student overview</a>
-</footer>
 <div th:insert="fragments :: footer"></div>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-<!--<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Home page</title>
-    <link href="css/style.css" rel="stylesheet">
-</head>
-<body>
-<div class="container text-center">
-    <div><h1>Welcome to e-Library.</h1></div>
-    <div><h2>Please choose your option below:</h2></div>
-    <div class="p-2">
-        <a class="h3" th:href="@{/books/allBooks}">Book overview</a>
-    </div>
-    <div class="p-2">
-        <a class="h3" th:href="@{/students}">Student overview</a>
-    </div>
-</div>
-<script src="js/script.js"></script>
-</body>
-</html> -->

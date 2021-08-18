@@ -7,11 +7,7 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 //@EnableWebSecurity
-public class SecurityConfiguration { /*extends WebSecurityConfigurerAdapter {
+public class SecurityConfiguration  {
 
-    @Autowired
-    private StudentService studentService;
 
-    @Bean
-    public BCrypt */
 }
