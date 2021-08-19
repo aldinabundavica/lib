@@ -60,7 +60,7 @@ public class StudentController {
         return "";
     }
 
-    @RequestMapping("/editStudent/1/{id}")
+    @RequestMapping("/editStudent/{id}")
     public String addBookToStudentById(Model model, @PathVariable long id) {
         _studentService.addBookToStudentById(1, id);
         return "redirect:/students";
