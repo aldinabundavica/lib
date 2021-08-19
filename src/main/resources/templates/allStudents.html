@@ -57,12 +57,12 @@
                             </div>
                             <div class="modal-body">
                                 <div class="form-group">
-                                    <label for="nameInput">First Name</label>
-                                    <input type="text" th:value ="${student.name}" class="form-control" id="nameInput" placeholder="First Name" readonly>
+                                    <label>First Name</label>
+                                    <input type="text" th:value ="${student.name}" class="form-control" placeholder="First Name" readonly>
                                 </div>
                                 <div class="form-group">
-                                    <label for="lastnameInput">Last Name</label>
-                                    <input type="text" th:value="${student.lastname}" class="form-control" id="lastnameInput" placeholder="Last Name" readonly>
+                                    <label>Last Name</label>
+                                    <input type="text" th:value="${student.lastname}" class="form-control" placeholder="Last Name" readonly>
                                 </div>
                                 <div class="form-group">
                                     <label>Already borrowed books:</label>
@@ -73,17 +73,22 @@
                                         <li class="list-group-item"></li>
                                     </ul>
                                 </div>
-                                <div class="form-group">
-                                    <label>Choose book to borrow:</label>
-                                    <select>
-                                        <option th:each="book: ${books}"
-                                                th:text="${book.title} + ', ' + ${book.writer.getName()} + ' ' + ${book.writer.getLastname()}"
-                                                th:value="${book.id}"></option>
-                                    </select>
-                                </div>
+                                <form action="#" th:action="@{/editStudent/{id}(id=${student.id})}" th:object="${book}" method="post">
+                                    <div class="form-group">
+                                        <label>Choose book to borrow:</label>
+                                        <select>
+                                            <option th:each="b: ${books}"
+                                                    th:value="${b.id}"
+                                                    th:text="${b.title} + ', ' + ${b.writer.getName()} + ' ' + ${b.writer.getLastname()}"></option>
+                                        </select>
+                                        <p class="mt-3 ml-3">
+                                            <button class="btn btn-primary" type="submit">Submit</button>
+                                        </p>
+                                    </div>
+                                </form>
                             </div>
                             <div class="modal-footer">
-                                <a th:href="@{/editStudent/1/{id}(id=${student.id})}" class="btn btn-primary" id="saveEditModal">Submit</a>
+                                <a class="btn btn-primary" id="saveEditModal">Submit</a>
                             </div>
                         </div>
                     </div>

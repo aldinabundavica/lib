@@ -1,5 +1,6 @@
 package com.example.lib.service;
 
+import com.example.lib.libMapper.dtos.BookSlimDto;
 import com.example.lib.libMapper.dtos.StudentSlimDto;
 import com.example.lib.libMapper.mappers.LibMapper;
 import com.example.lib.model.Book;
@@ -51,14 +52,15 @@ public class StudentService implements IStudentService{
         return student;
     }
 
-    public Student addBookToStudentById(long book, long id) {
+    public Student addBookToStudentById(Book book, long id) {
         Student student = _studentRepository.findById(id).get();
         List<Book> borrowedBooks = student.getBorrowedBooks();
-        List<Book> test = new ArrayList<>(borrowedBooks);
-        test.add(_bookRepository.findById(book).get());
-        student.setBorrowedBooks(test);
+        borrowedBooks.add(_bookRepository.findById(book.getId()).get());
+        student.setBorrowedBooks(borrowedBooks);
         return _studentRepository.save(student);
     }
+
+
 
     public List<Student> findStudentByKeyword(String keyword) {
         return _studentRepository.findByKeyword(keyword);

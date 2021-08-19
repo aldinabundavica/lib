@@ -1,5 +1,6 @@
 package com.example.lib.controller;
 
+import com.example.lib.libMapper.dtos.BookSlimDto;
 import com.example.lib.libMapper.dtos.StudentSlimDto;
 import com.example.lib.model.Book;
 import com.example.lib.model.Student;
@@ -60,9 +61,12 @@ public class StudentController {
         return "";
     }
 
-    @RequestMapping("/editStudent/{id}")
-    public String addBookToStudentById(Model model, @PathVariable long id) {
-        _studentService.addBookToStudentById(1, id);
+    @PostMapping("/editStudent/{id}")
+    public String addBookToStudentById(@PathVariable long id, @ModelAttribute("book") Book borrowed) {
+        System.out.println(borrowed.getId());
+        System.out.println(borrowed.getTitle());
+        System.out.println(borrowed.getWriter());
+        _studentService.addBookToStudentById(borrowed, id);
         return "redirect:/students";
     }
 }
