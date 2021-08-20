@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head th:fragment="myheader">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -13,7 +14,7 @@
 <body>
     <div th:fragment="menu">
         <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
-            <ul class="navbar-nav">
+            <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
                     <a class="nav-link fas fa-home fa-2x icon-silver" th:href="@{/home}"></a>
                 </li>
@@ -27,6 +28,11 @@
                     <a class="nav-link" th:href="@{/writers}">Writers</a>
                 </li>
             </ul>
+            <form class="form-inline my-2 my-lg-0" form-method="post" th:action="@{/logout}">
+                <button sec:authorize="isAuthenticated()" class="btn btn-light" type="submit">Logout</button>
+                <button sec:authorize="isAnonymous()" th:href="@{~/login}" class="btn btn-info" type="submit">Login</button>
+
+            </form>
         </nav>
     </div>
     <div th:fragment="footer" class="text-center">

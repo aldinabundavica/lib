@@ -31,7 +31,7 @@ public class CustomApplicationListener implements ApplicationListener<ContextRef
 
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event){
-        ArrayList<Student> students = new ArrayList<Student>();
+     /*   ArrayList<Student> students = new ArrayList<Student>();
         students.add(new Student("Aldina", "Bundavica", new ArrayList<>()));
         students.add(new Student("Dina", "Bundavica", new ArrayList<>()));
         students.add(new Student("Amel", "Aličić", new ArrayList<>()));
@@ -59,7 +59,7 @@ public class CustomApplicationListener implements ApplicationListener<ContextRef
         books.add(new Book("Zločin i kazna", writers.get(1), new ArrayList<>(), false));
         books.add(new Book("Šuma Striborova", writers.get(2), new ArrayList<>(), false));
 
-        bookRepository.saveAll(books);
+        bookRepository.saveAll(books); */
 
     }
 

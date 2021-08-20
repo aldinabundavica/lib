@@ -1,12 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
-    <title>Login - e-Library</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
-          crossorigin="anonymous" />
+    <title>Login e-Library</title>
+    <div th:replace="fragments :: myheader"></div>
 </head>
 <body>
 <div class="container my-5 text-center">
@@ -16,26 +12,22 @@
             <p class="text-danger">[[${session.SPRING_SECURITY_LAST_EXCEPTION.message}]]</p>
         </div>
 
-        <div th:if="${param.logout}">
-            <p class="text-warning">You have been logged out.</p>
-        </div>
-
         <div class="border border-secondary p-3 rounded">
             <p>Access to e-Library</p>
             <p>
-                <input type="email" name="email" class="form-control" placeholder="E-mail" required autofocus/>
+                <input type="text" name="username" value="" class="form-control" placeholder="Username" required autofocus/>
             </p>
             <p>
                 <input type="password" name="password" class="form-control" placeholder="Password" required />
             </p>
             <p>
-                <input type="checkbox" name="remember-me" />&nbsp;Remember Me
-            </p>
-            <p>
-                <input type="submit" value="Login" class="btn btn-primary" />
-            </p>
+                <input type="checkbox"/>&nbsp;Remember Me</p>
+            <div class="col-xs-4">
+                <button type="submit" class="btn btn-primary">Login</button>
+            </div>
         </div>
     </form>
 </div>
+<div th:insert="fragments :: footer"></div>
 </body>
 </html>
