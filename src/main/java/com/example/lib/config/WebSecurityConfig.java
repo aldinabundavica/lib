@@ -1,8 +1,10 @@
 package com.example.lib.config;
 
+import com.example.lib.service.MyUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -19,33 +21,50 @@ import javax.sql.DataSource;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    UserDetailsService userDetailsService;
-
-    @Autowired
     private DataSource dataSource;
 
-    @Override
-    protected void configure(final AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService);
+    @Bean
+    public UserDetailsService userDetailsService() {
+        return new MyUserDetailsService();
     }
+
+    @Bean
+    public BCryptPasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public DaoAuthenticationProvider authenticationProvider() {
+        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+        authProvider.setUserDetailsService(userDetailsService());
+        authProvider.setPasswordEncoder(passwordEncoder());
+
+        return authProvider;
+    }
+
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.authenticationProvider(authenticationProvider());
+    }
+
     @Override
     protected void configure(final HttpSecurity http) throws Exception {
-        http.csrf().disable();
         http.authorizeRequests().antMatchers("/login").permitAll();
         http.authorizeRequests().antMatchers("/home", "/students").authenticated();
         http.authorizeRequests().and().formLogin()
-                //.loginProcessingUrl("/j_spring_security_check")
                 .loginPage("/login")
                 .defaultSuccessUrl("/home")
-                .failureUrl("/login.html?error=true")
-                .usernameParameter("username")
-                .passwordParameter("password")
-                .and().logout().logoutUrl("/");
+                .usernameParameter("email")
+                .and().logout().logoutUrl("/logout").permitAll();
 
         // Config Remember Me.
-        http.authorizeRequests().and() //
+      /*  http.authorizeRequests().and() //
                 .rememberMe().tokenRepository(this.persistentTokenRepository()) //
                 .tokenValiditySeconds(24 * 60 * 60); // 24h
+                */
+
+
+
     }
 
     @Bean
@@ -55,8 +74,4 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return db;
     }
 
-    @Bean
-    public BCryptPasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
 }

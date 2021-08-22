@@ -15,7 +15,7 @@
         <div class="border border-secondary p-3 rounded">
             <p>Access to e-Library</p>
             <p>
-                <input type="text" name="username" value="" class="form-control" placeholder="Username" required autofocus/>
+                <input type="email" name="email" value="" class="form-control" placeholder="Email" required autofocus/>
             </p>
             <p>
                 <input type="password" name="password" class="form-control" placeholder="Password" required />
@@ -24,6 +24,10 @@
                 <input type="checkbox"/>&nbsp;Remember Me</p>
             <div class="col-xs-4">
                 <button type="submit" class="btn btn-primary">Login</button>
+            </div>
+            <br/>
+            <div class="col-xs-4">
+                <a th:href="@{/register}" class="link-primary">You dont have an account? Register here.</a>
             </div>
         </div>
     </form>

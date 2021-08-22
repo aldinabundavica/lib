@@ -15,7 +15,7 @@
         <div class="card-body">
     <p class="mt-3 ml-3">
         <a href="/add" class="btn btn-primary">
-            <i class="fas fa-user-plus ml-2"> Add Student</i></a>
+            <i class="fas fa-appUser-plus ml-2"> Add Student</i></a>
     </p>
     <br/><br/>
     <div class="my-3 ml-3">
@@ -55,6 +55,7 @@
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
+                            <form action="#" th:action="@{/editStudent/{id}(id=${student.id})}" method="post">
                             <div class="modal-body">
                                 <div class="form-group">
                                     <label>First Name</label>
@@ -73,10 +74,9 @@
                                         <li class="list-group-item"></li>
                                     </ul>
                                 </div>
-                                <form action="#" th:action="@{/editStudent/{id}(id=${student.id})}" th:object="${book}" method="post">
                                     <div class="form-group">
                                         <label>Choose book to borrow:</label>
-                                        <select>
+                                        <select name="book">
                                             <option th:each="b: ${books}"
                                                     th:value="${b.id}"
                                                     th:text="${b.title} + ', ' + ${b.writer.getName()} + ' ' + ${b.writer.getLastname()}"></option>
@@ -85,8 +85,9 @@
                                             <button class="btn btn-primary" type="submit">Submit</button>
                                         </p>
                                     </div>
-                                </form>
+
                             </div>
+                            </form>
                             <div class="modal-footer">
                                 <a class="btn btn-primary" id="saveEditModal">Submit</a>
                             </div>
@@ -134,6 +135,6 @@
 <!--
     <p class="my-5">
         <a href="/add" class="btn btn-primary">
-            <i class="fas fa-user-plus ml-2"> Add Student</i></a>
+            <i class="fas fa-appUser-plus ml-2"> Add Student</i></a>
     </p>
 -->
