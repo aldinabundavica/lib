@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Student List</title>
+    <div th:replace="fragments :: myheader"></div>
+</head>
+<header>
+    <div th:insert="fragments :: menu"></div>
+</header>
+<body>
+<div class="container my-5">
+    <h3>Writer List</h3>
+    <div class="card">
+        <div class="card-body">
+            <p class="mt-3 ml-3">
+                <a href="/writers/add" class="btn btn-primary">
+                    <i class="fas fa-user-plus ml-2"> Add Writer</i></a>
+            </p>
+            <br/><br/>
+            <div class="container text-center">
+                <table class="table table-bordered" border="1" cellpadding="10">
+                    <thead class="thead-dark">
+                    <tr>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Birth Date</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="writer : ${writers}">
+                        <td th:text="${writer.name}">Name</td>
+                        <td th:text="${writer.lastname}">Last Name</td>
+                        <td th:text="${writer.date}">Birth Date</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<div th:insert="fragments :: footer"></div>
+</body>
+</html>

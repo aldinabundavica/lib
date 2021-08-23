@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Add Writer</title>
+    <div th:replace="fragments :: myheader"></div>
+</head>
+<header>
+    <div th:insert="fragments :: menu"></div>
+</header>
+<body>
+<div class="container my-10">
+    <h3> Add Writer</h3>
+    <div class="card">
+        <div class="card-body">
+            <div class="col-md-10">
+                <form th:action="@{/addWriter}" th:object="${writer}" method="post">
+                    <div class="row">
+                        <div class="form-group col-md-8">
+                            <label class="col-form-label">First Name</label>
+                            <input type="text" th:field="*{name}" class="form-control"
+                                   id="firstName" placeholder="First Name" />
+                        </div>
+                        <div class="form-group col-md-8">
+                            <label class="col-form-label">Last Name</label>
+                            <input type="text" th:field="*{lastname}" class="form-control"
+                                   id="lastName" placeholder="Last Name" />
+                        </div>
+                        <div class="container">
+                            <div class="row">
+                                <div class='col-sm-6'>
+                                    <div class="form-group">
+                                        <div class='input-group date' id='datetimepicker1'>
+                                            <input type='text' class="form-control" />
+                                            <span class="input-group-addon">
+                                            <span class="glyphicon glyphicon-calendar"></span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <script type="text/javascript">
+                                     $(function () {
+                                         $('#datetimepicker1').datetimepicker();
+                                     });
+                                 </script>
+                            </div>
+                        </div>
+                        <div class="form-group col-md-8">
+                            <input type="submit" class="btn btn-primary" value="Save">
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div th:insert="fragments :: footer"></div>
+</body>
+</html>
