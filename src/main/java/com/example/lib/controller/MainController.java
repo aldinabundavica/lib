@@ -4,8 +4,12 @@ import com.example.lib.model.AppUser;
 import com.example.lib.service.AppUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @CrossOrigin(origins="http://localhost:4200")
@@ -13,16 +17,9 @@ public class MainController {
     @Autowired
     private AppUserService _appUserService;
 
-    @RequestMapping(value = "/login", method = RequestMethod.GET)
-    public String loginPage(Model model) {
-
-        return "login";
-    }
-
-    @GetMapping("/register")
-    public String register(@RequestBody AppUser user) {
-
-        return "register";
+    @PostMapping("/signin")
+    public ResponseEntity<?> loginUser(@RequestBody String email, @Valid @RequestBody String password) {
+        return _appUserService.generateAuthenticationToken(email, password);
     }
 
     @PostMapping("/signup")

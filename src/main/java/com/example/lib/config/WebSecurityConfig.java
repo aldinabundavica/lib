@@ -1,5 +1,6 @@
 package com.example.lib.config;
 
+import com.example.lib.service.AppUserService;
 import com.example.lib.service.MyUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -49,14 +50,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(final HttpSecurity http) throws Exception {
-        http.authorizeRequests().antMatchers("/login", "/signup").permitAll();
+        http.authorizeRequests().antMatchers("/signin", "/signup").permitAll();
         http.authorizeRequests().antMatchers("/home", "/students").authenticated();
         http.cors().and().
                 authorizeRequests().and().formLogin()
-                .loginPage("/login")
+                .loginPage("/signin")
                 .defaultSuccessUrl("/home")
                 .usernameParameter("email")
-                .and().logout().logoutUrl("/logout").permitAll().permitAll();
+                .and().logout().logoutUrl("/logout").permitAll().permitAll()
+                .and().csrf().disable();
 
         // Config Remember Me.
       http.authorizeRequests().and() //
