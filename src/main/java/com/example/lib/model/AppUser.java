@@ -9,6 +9,8 @@ public class AppUser {
     private long id;
     @Column(nullable = false, unique = true, length = 45)
     private String email;
+    @Column(nullable = false, unique = true, length = 45)
+    private String username;
     @Column(nullable = false, length = 64)
     private String password;
     @Column(name = "first_name", nullable = false, length = 20)
@@ -20,8 +22,9 @@ public class AppUser {
     public AppUser() {
     }
 
-    public AppUser(String email, String password, String firstName, String lastName) {
+    public AppUser(String email, String username, String password, String firstName, String lastName) {
         this.email = email;
+        this.username = username;
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -41,6 +44,14 @@ public class AppUser {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getPassword() {

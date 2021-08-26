@@ -49,19 +49,20 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(final HttpSecurity http) throws Exception {
-        http.authorizeRequests().antMatchers("/login").permitAll();
+        http.authorizeRequests().antMatchers("/login", "/signup").permitAll();
         http.authorizeRequests().antMatchers("/home", "/students").authenticated();
-        http.authorizeRequests().and().formLogin()
+        http.cors().and().
+                authorizeRequests().and().formLogin()
                 .loginPage("/login")
                 .defaultSuccessUrl("/home")
                 .usernameParameter("email")
-                .and().logout().logoutUrl("/logout").permitAll();
+                .and().logout().logoutUrl("/logout").permitAll().permitAll();
 
         // Config Remember Me.
-      /*  http.authorizeRequests().and() //
+      http.authorizeRequests().and() //
                 .rememberMe().tokenRepository(this.persistentTokenRepository()) //
                 .tokenValiditySeconds(24 * 60 * 60); // 24h
-                */
+
 
 
 

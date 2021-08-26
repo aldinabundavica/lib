@@ -3,14 +3,12 @@ package com.example.lib.controller;
 import com.example.lib.model.AppUser;
 import com.example.lib.service.AppUserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
-@Controller
+@RestController
+@CrossOrigin(origins="http://localhost:4200")
 public class MainController {
     @Autowired
     private AppUserService _appUserService;
@@ -22,18 +20,18 @@ public class MainController {
     }
 
     @GetMapping("/register")
-    public String register(Model model) {
-        model.addAttribute("user", new AppUser());
+    public String register(@RequestBody AppUser user) {
+
         return "register";
     }
 
-    @PostMapping("/process_register")
-    public String processRegister(AppUser user) {
-        AppUser usr = _appUserService.registerUser(user);
-        if(usr != null)
-            return "redirect:/home";
-
-        return "redirect:/login";
+    @PostMapping("/signup")
+    public ResponseEntity<AppUser> processRegister(@RequestBody AppUser user) {
+        try{
+            return ResponseEntity.ok(_appUserService.registerUser(user));
+        } catch(Exception e) {
+            return ResponseEntity.badRequest().build();
+        }
     }
 
     @GetMapping("/home")

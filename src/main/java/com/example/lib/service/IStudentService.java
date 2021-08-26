@@ -13,7 +13,4 @@ public interface IStudentService {
     Student getStudentById(long id);
     Student deleteStudentById(long id);
     List<Book> getBooks();
-    Student addBookToStudentById(Book book, long id);
-    List<Student> findStudentByKeyword(String keyword);
-
 }

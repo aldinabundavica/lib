@@ -1,7 +1,9 @@
 package com.example.lib.model;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.List;
+import java.util.zip.DataFormatException;
 
 @Entity
 public class Student {
@@ -10,23 +12,17 @@ public class Student {
     private long id;
     private String name;
     private String lastname;
-
-    @ManyToMany(fetch=FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinTable(
-            name = "book_student",
-            joinColumns = @JoinColumn(name = "student_id"),
-            inverseJoinColumns = @JoinColumn(name = "book_id"))
-    private List<Book> borrowedBooks;
+    private Date birthDate;
 
     public Student() {
         super();
     }
 
-    public Student(String name, String lastname, List<Book> borrowedBooks) {
+    public Student(String name, String lastname, Date birthDate) {
         super();
         this.name = name;
         this.lastname = lastname;
-        this.borrowedBooks = borrowedBooks;
+        this.birthDate = birthDate;
     }
 
     public long getId() {
@@ -53,12 +49,11 @@ public class Student {
         this.lastname = lastname;
     }
 
-    public List<Book> getBorrowedBooks() {
-        return borrowedBooks;
+    public Date getBirthDate() {
+        return birthDate;
     }
 
-    public void setBorrowedBooks(List<Book> borrowedBooks) {
-        this.borrowedBooks = borrowedBooks;
+    public void setBirthDate(Date birthDate) {
+        this.birthDate = birthDate;
     }
-
 }

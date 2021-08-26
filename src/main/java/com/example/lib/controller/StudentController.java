@@ -1,16 +1,12 @@
 package com.example.lib.controller;
 
-import com.example.lib.libMapper.dtos.BookSlimDto;
-import com.example.lib.libMapper.dtos.StudentSlimDto;
-import com.example.lib.model.Book;
 import com.example.lib.model.Student;
 import com.example.lib.service.StudentService;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
-@Controller
+@RestController
+@CrossOrigin
 public class StudentController {
 
     private StudentService _studentService;
@@ -19,18 +15,16 @@ public class StudentController {
         this._studentService = _studentService;
     }
 
-    @GetMapping("students")
-    public String getAllStudentsDetails(Model model, String keyword) {
-        model.addAttribute("listStudents", keyword==null ? _studentService.getAllStudents() : _studentService.findStudentByKeyword(keyword));
-        model.addAttribute("books", _studentService.getBooks());
-        return "allStudents";
+    @GetMapping("/allstudents")
+    public List<Student> getAllStudents() {
+        return _studentService.getAllStudents();
     }
 
     @GetMapping("student/{id}")
     @ResponseBody
     public Student getStudentById(@PathVariable long id) {
         return _studentService.getStudentById(id);
-        }
+    }
 
     @GetMapping("")
     @ResponseBody
@@ -39,34 +33,13 @@ public class StudentController {
     }
 
 
-    @RequestMapping("/deleteStudent/{id}")
-    public String deleteStudentById(Model model, @PathVariable long id) {
-        _studentService.deleteStudentById(id);
-        return "redirect:/students";
+    @DeleteMapping("/delete-student/{id}")
+    public Student deleteStudentById(@PathVariable long id) {
+        return _studentService.deleteStudentById(id);
     }
 
-    //adding students
-    @GetMapping("/add")
-    public String showCreateStudentForm(Model model) {
-        model.addAttribute("student", new Student());
-        return "addStudent";
-    }
-
-    @PostMapping("/addStudent")
-    public String createStudent(Student student) {
-        Student newStudent = _studentService.createStudent(student);
-        if(newStudent != null) {
-            return "redirect:/students";
-        }
-        return "";
-    }
-
-    @PostMapping("/editStudent/{id}")
-    public String addBookToStudentById(@PathVariable long id, @ModelAttribute("book") Book borrowed) {
-        System.out.println(borrowed.getId());
-        System.out.println(borrowed.getTitle());
-        System.out.println(borrowed.getWriter());
-        _studentService.addBookToStudentById(borrowed, id);
-        return "redirect:/students";
+    @PostMapping("/create-student")
+    public Student createStudent(@RequestBody Student student) {
+        return _studentService.createStudent(student);
     }
 }

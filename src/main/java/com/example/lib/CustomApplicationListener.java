@@ -31,15 +31,15 @@ public class CustomApplicationListener implements ApplicationListener<ContextRef
 
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event){
-     /*   ArrayList<Student> students = new ArrayList<Student>();
-        students.add(new Student("Aldina", "Bundavica", new ArrayList<>()));
-        students.add(new Student("Dina", "Bundavica", new ArrayList<>()));
-        students.add(new Student("Amel", "Aličić", new ArrayList<>()));
-        students.add(new Student("Ana", "Crkvenjaš", new ArrayList<>()));
+        ArrayList<Student> students = new ArrayList<Student>();
+        students.add(new Student("Aldina", "Bundavica", new Date()));
+        students.add(new Student("Dina", "Bundavica", new Date()));
+        students.add(new Student("Amel", "Aličić", new Date()));
+        students.add(new Student("Ana", "Crkvenjaš", new Date()));
 
         studentRepository.saveAll(students);
 
-        ArrayList<Writer> writers = new ArrayList<Writer>();
+  /*      ArrayList<Writer> writers = new ArrayList<Writer>();
         try {
             writers.add(new Writer("Lav", "N. Tolstoj", stringToDate("02/02/1834")));
             writers.add(new Writer("Fjodor", "M. Dostojevski", stringToDate("12/06/1888")));

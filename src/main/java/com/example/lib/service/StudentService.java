@@ -52,15 +52,6 @@ public class StudentService implements IStudentService{
         return student;
     }
 
-    public Student addBookToStudentById(Book book, long studentId) {
-        Student student = _studentRepository.findById(studentId).get();
-        List<Book> b = student.getBorrowedBooks();
-        b.add(book);
-       student.setBorrowedBooks(b);
-        return _studentRepository.save(student);
-    }
-
-
 
     public List<Student> findStudentByKeyword(String keyword) {
         return _studentRepository.findByKeyword(keyword);
