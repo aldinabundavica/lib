@@ -1,15 +1,13 @@
 package com.example.lib.controller;
 
+import com.example.lib.helper.LoginRequest;
 import com.example.lib.model.AppUser;
 import com.example.lib.service.AppUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @RestController
 @CrossOrigin(origins="http://localhost:4200")
@@ -18,8 +16,8 @@ public class MainController {
     private AppUserService _appUserService;
 
     @PostMapping("/signin")
-    public ResponseEntity<?> loginUser(@RequestBody String email, @Valid @RequestBody String password) {
-        return _appUserService.generateAuthenticationToken(email, password);
+    public ResponseEntity<?> loginUser(@RequestBody LoginRequest loginRequest) {
+        return _appUserService.generateAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword());
     }
 
     @PostMapping("/signup")
@@ -30,10 +28,4 @@ public class MainController {
             return ResponseEntity.badRequest().build();
         }
     }
-
-    @GetMapping("/home")
-    public String home() {
-        return "index";
-    }
-
 }

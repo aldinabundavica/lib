@@ -1,10 +1,13 @@
 package com.example.lib.config;
 
+import com.example.lib.jwt.AuthEntryPointJwt;
+import com.example.lib.jwt.AuthTokenFilter;
 import com.example.lib.service.AppUserService;
 import com.example.lib.service.MyUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -12,6 +15,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 
@@ -22,12 +26,13 @@ import javax.sql.DataSource;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    private DataSource dataSource;
+    private AuthEntryPointJwt unauthorizedHandler;
 
     @Bean
-    public UserDetailsService userDetailsService() {
-        return new MyUserDetailsService();
-    }
+    public AuthTokenFilter authenticationJwtTokenFilter() { return new AuthTokenFilter(); }
+
+    @Bean
+    public UserDetailsService userDetailsService() { return new MyUserDetailsService(); }
 
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
@@ -50,31 +55,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(final HttpSecurity http) throws Exception {
-        http.authorizeRequests().antMatchers("/signin", "/signup").permitAll();
-        http.authorizeRequests().antMatchers("/home", "/students").authenticated();
-        http.cors().and().
-                authorizeRequests().and().formLogin()
+        http.authorizeRequests().antMatchers("/signin", "/signup", "/allstudents").permitAll();
+        http.authorizeRequests().antMatchers("/home").authenticated();
+        http.cors().and()
+                .authorizeRequests().and().formLogin()
                 .loginPage("/signin")
-                .defaultSuccessUrl("/home")
-                .usernameParameter("email")
+                .defaultSuccessUrl("/")
+                .usernameParameter("username")
                 .and().logout().logoutUrl("/logout").permitAll().permitAll()
                 .and().csrf().disable();
 
-        // Config Remember Me.
-      http.authorizeRequests().and() //
-                .rememberMe().tokenRepository(this.persistentTokenRepository()) //
-                .tokenValiditySeconds(24 * 60 * 60); // 24h
-
-
-
-
+        http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 
-    @Bean
-    public PersistentTokenRepository persistentTokenRepository() {
-        JdbcTokenRepositoryImpl db = new JdbcTokenRepositoryImpl();
-        db.setDataSource(dataSource);
-        return db;
-    }
 
 }

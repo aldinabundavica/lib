@@ -1,28 +1,30 @@
 package com.example.lib.service;
 
+import com.example.lib.jwt.JwtResponse;
+import com.example.lib.jwt.JwtUtils;
 import com.example.lib.model.AppUser;
 import com.example.lib.model.MyUserDetails;
 import com.example.lib.repository.AppUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.DisabledException;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Objects;
 
 @Service
 public class AppUserService {
 
     @Autowired
     AppUserRepository _appUserRepository;
+
     @Autowired
-    MyUserDetailsService _myUserDetailsService;
+    JwtUtils _jwtUtils;
+
+    AuthenticationManager _authenticationManager;
 
     public AppUser registerUser(AppUser user) {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
@@ -38,26 +40,17 @@ public class AppUserService {
         return usr;
     }
 
-    private void authenticate(String email, String password) throws Exception {
-        Objects.requireNonNull(email);
-        Objects.requireNonNull(password);
-        try {
-           // authenticationManager.authenticate(new EmailPasswordAuthenticationToken(email, password));
-        } catch (DisabledException e) {
-            throw new Exception("USER_DISABLED", e);
-        } catch (BadCredentialsException e) {
-            throw new Exception("INVALID_CREDENTIALS", e);
-        }
-    }
+    public ResponseEntity<?> generateAuthenticationToken(String username, String password) {
+        Authentication authentication = _authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(username, password));
 
-    public ResponseEntity<?> generateAuthenticationToken(String email, String password) {
-      //  authenticate(email, password);
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        String jwt = _jwtUtils.generateJwtToken(authentication);
 
-      //  final UserDetails userDetails = loadUserByUsername(email);
+        MyUserDetails userDetails = (MyUserDetails) authentication.getPrincipal();
 
-        //final String token = jwtTokenUtil.generateToken(userDetails);
-
-        return null; //ResponseEntity.ok(); //new JwtResponse(token));
+        return ResponseEntity.ok(new JwtResponse(jwt,
+                userDetails.getUsername()));
     }
 }
 

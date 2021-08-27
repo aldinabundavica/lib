@@ -26,7 +26,7 @@ public class MyUserDetails implements UserDetails {
 
     @Override
     public String getUsername() {
-        return _user.getEmail();
+        return _user.getUsername();
     }
 
     @Override
@@ -47,9 +47,5 @@ public class MyUserDetails implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
-    }
-
-    public String getFullName() {
-        return _user.getFirstName() + " " + _user.getLastName();
     }
 }

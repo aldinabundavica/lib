@@ -10,8 +10,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-import static com.example.lib.helper.Constants.httpBlankSpace;
-
 @Controller
 @RequestMapping("/books")
 public class BookController {
@@ -48,11 +46,6 @@ public class BookController {
         return "allBooks";
     }
 
-    @PutMapping("/changebookstatus/{title}/{status}")
-    public Book changeBookStatus(@PathVariable String title,@PathVariable boolean status) {
-        title.replace(httpBlankSpace, " ");
-        return _bookService.changeBookStatus(title, (boolean) status);
-    }
 
     @PutMapping("/borrowBook/{title}")
     @ResponseBody
