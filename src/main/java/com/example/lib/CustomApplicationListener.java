@@ -1,9 +1,8 @@
 package com.example.lib;
 
-import com.example.lib.model.Book;
-import com.example.lib.model.Student;
-import com.example.lib.model.Writer;
+import com.example.lib.model.*;
 import com.example.lib.repository.BookRepository;
+import com.example.lib.repository.RoleRepository;
 import com.example.lib.repository.StudentRepository;
 import com.example.lib.repository.WriterRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +27,8 @@ public class CustomApplicationListener implements ApplicationListener<ContextRef
     private WriterRepository writerRepository;
     @Autowired
     private BookRepository bookRepository;
+    @Autowired
+    private RoleRepository roleRepository;
 
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event){
@@ -38,6 +39,13 @@ public class CustomApplicationListener implements ApplicationListener<ContextRef
         students.add(new Student("Ana", "Crkvenjaš", new Date()));
 
         studentRepository.saveAll(students);
+
+        ArrayList<Role> roles = new ArrayList<Role>();
+        roles.add(new Role(RoleName.ROLE_ADMIN));
+        roles.add(new Role(RoleName.ROLE_PM));
+        roles.add(new Role(RoleName.ROLE_USER));
+
+        roleRepository.saveAll(roles);
 
   /*      ArrayList<Writer> writers = new ArrayList<Writer>();
         try {

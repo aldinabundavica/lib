@@ -1,5 +1,8 @@
 package com.example.lib.jwt;
 
+import org.springframework.security.core.GrantedAuthority;
+
+import java.util.Collection;
 import java.util.List;
 
 public class JwtResponse {
@@ -7,10 +10,12 @@ public class JwtResponse {
     private String type = "Bearer";
     private String username;
     private String email;
+    private Collection authorities;
 
-    public JwtResponse(String accessToken, String username) {
+    public JwtResponse(String accessToken, String username, Collection authorities) {
         this.token = accessToken;
         this.username = username;
+        this.authorities = authorities;
     }
 
     public String getAccessToken() {
@@ -43,5 +48,9 @@ public class JwtResponse {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return authorities;
     }
 }
