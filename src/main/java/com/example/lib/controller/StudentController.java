@@ -42,4 +42,10 @@ public class StudentController {
     public Student createStudent(@RequestBody Student student) {
         return _studentService.createStudent(student);
     }
+
+    @PutMapping("/update-student/{id}")
+    public Student updateStudent(@PathVariable long id, @RequestBody Student student) {
+        student.setId(id);
+        return _studentService.createStudent(student);
+    }
 }
