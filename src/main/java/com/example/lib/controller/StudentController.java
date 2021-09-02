@@ -2,7 +2,11 @@ package com.example.lib.controller;
 
 import com.example.lib.model.Student;
 import com.example.lib.service.StudentService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -39,12 +43,12 @@ public class StudentController {
     }
 
     @PostMapping("/create-student")
-    public Student createStudent(@RequestBody Student student) {
-        return _studentService.createStudent(student);
+    public ResponseEntity<Student> createStudent(@Valid @RequestBody Student student) {
+        return new ResponseEntity<Student>(_studentService.createStudent(student), HttpStatus.CREATED);
     }
 
     @PutMapping("/update-student/{id}")
-    public Student updateStudent(@PathVariable long id, @RequestBody Student student) {
+    public Student updateStudent(@PathVariable long id, @Valid @RequestBody Student student) {
         student.setId(id);
         return _studentService.createStudent(student);
     }

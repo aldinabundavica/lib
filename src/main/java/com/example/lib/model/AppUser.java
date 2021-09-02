@@ -3,6 +3,9 @@ package com.example.lib.model;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -12,19 +15,27 @@ public class AppUser {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @Email
+    @NotEmpty
     @Column(nullable = false, unique = true, length = 45)
     private String email;
 
+    @NotEmpty
     @Column(nullable = false, unique = true, length = 45)
     private String username;
 
+    @NotEmpty
+    @Length(min = 6, max = 64, message = "Password should have at least 6 characters.")
     @Column(nullable = false, length = 64)
     private String password;
 
-    @Length(max=20)
+    @Length(max = 20)
+    @NotBlank(message = "First name required")
     @Column(name = "first_name", nullable = false)
     private String firstName;
 
+    @Length(min = 2, max = 20, message = "Last name should have at least 2 characters.")
+    @NotBlank
     @Column(name = "last_name", nullable = false, length = 20)
     private String lastName;
 

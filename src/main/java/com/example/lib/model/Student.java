@@ -1,6 +1,8 @@
 package com.example.lib.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.List;
 import java.util.zip.DataFormatException;
@@ -10,8 +12,14 @@ public class Student {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
+    @NotBlank(message = "Name should not be blank.")
     private String name;
+
+    @NotBlank(message = "Name should not be blank.")
     private String lastname;
+
+    @NotNull(message = "Insert valid date.")
     private Date birthDate;
 
     public Student() {
